@@ -1,4 +1,4 @@
-# Bài 7.2 - Instance Chat
+# Instance Chat
 
 Instance Chat là ứng dụng instant chat đơn giản xây dựng bằng Spring Boot, lưu dữ liệu bằng các file JSON và storage local. Dự án mô phỏng một hệ thống chat nội bộ với đăng nhập, kết bạn, gửi tin nhắn 1-1, gửi file và nhận tin mới bằng long polling.
 
