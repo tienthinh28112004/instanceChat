@@ -1,58 +1,58 @@
-# Bai 7.2 - Quick Chat
+# Bài 7.2 - Quick Chat
 
-Quick Chat la ung dung instant chat don gian xay dung bang Spring Boot, luu du lieu bang cac file JSON va storage local. Du an mo phong mot he thong chat noi bo voi dang nhap, ket ban, gui tin nhan 1-1, gui file va nhan tin moi bang long polling.
+Quick Chat là ứng dụng instant chat đơn giản xây dựng bằng Spring Boot, lưu dữ liệu bằng các file JSON và storage local. Dự án mô phỏng một hệ thống chat nội bộ với đăng nhập, kết bạn, gửi tin nhắn 1-1, gửi file và nhận tin mới bằng long polling.
 
-## Tong quan
+## Tổng quan
 
-He thong gom cac thanh phan chinh:
+Hệ thống gồm các thành phần chính:
 
-- **Auth**: dang nhap bang username/password hoac Google email
-- **Friend service**: xem danh sach ban be va them ban
-- **Message service**: gui text, gui file, nhan message moi
-- **File service**: luu file vao `storage/` va cap link tai file
-- **Token interceptor**: kiem tra access token cho cac API can xac thuc
+- **Auth**: đăng nhập bằng username/password hoặc Google email
+- **Friend service**: xem danh sách bạn bè và thêm bạn
+- **Message service**: gửi text, gửi file, nhận message mới
+- **File service**: lưu file vào `storage/` và cấp link tải file
+- **Token interceptor**: kiểm tra access token cho các API cần xác thực
 
-## Tinh nang
+## Tính năng
 
-- Dang nhap bang tai khoan local da co san
-- Dang nhap bang Google email
-- Tao access token va luu token kem thoi gian tao / het han trong user data
-- Lay danh sach ban be cua user dang request
-- Ket ban 2 chieu
-- Chat 1-1 giua 2 user
-- Gui tin nhan text
-- Gui file/anh/bat ky file nao khi chat
-- Luu file dinh kem vao thu muc `storage/`
-- Nhan message moi bang long polling toi da 10 giay
-- Tra ve link download khi message la file
-- Bao ve file, chi nguoi gui hoac nguoi nhan moi duoc tai
+- Đăng nhập bằng tài khoản local đã có sẵn
+- Đăng nhập bằng Google email
+- Tạo access token và lưu token kèm thời gian tạo / hết hạn trong user data
+- Lấy danh sách bạn bè của user đang request
+- Kết bạn 2 chiều
+- Chat 1-1 giữa 2 user
+- Gửi tin nhắn text
+- Gửi file/ảnh/bất kỳ file nào khi chat
+- Lưu file đính kèm vào thư mục `storage/`
+- Nhận message mới bằng long polling tối đa 10 giây
+- Trả về link download khi message là file
+- Bảo vệ file, chỉ người gửi hoặc người nhận mới được tải
 
-## Cong nghe su dung
+## Công nghệ sử dụng
 
-| Thanh phan | Thu vien / Cong nghe |
+| Thành phần | Thư viện / Công nghệ |
 |---|---|
-| Ngon ngu | Java 17 |
+| Ngôn ngữ | Java 17 |
 | Framework | Spring Boot 3.3.5 |
 | Web | Spring Web |
 | JSON | `org.json` |
-| Hash mat khau | BCrypt (`at.favre.lib:bcrypt`) |
+| Hash mật khẩu | BCrypt (`at.favre.lib:bcrypt`) |
 | Build | Maven |
 
-## Cau truc thu muc
+## Cấu trúc thư mục
 
 ```text
 src/main/java/com/bai72/quickchat/
-    QuickChatApplication.java   Diem vao ung dung Spring Boot
+    QuickChatApplication.java   Điểm vào ứng dụng Spring Boot
     config/
-        AppDataInitializer.java Khoi tao data folder, storage va 5 user mau
-        AppProperties.java      Cau hinh data-dir, storage-dir, token-ttl, long-poll-timeout
-        WebConfig.java          Dang ky interceptor xac thuc
+        AppDataInitializer.java Khởi tạo data folder, storage và 5 user mẫu
+        AppProperties.java      Cấu hình data-dir, storage-dir, token-ttl, long-poll-timeout
+        WebConfig.java           Đăng ký interceptor xác thực
     controller/
-        AuthController.java     API dang nhap local va Google
-        FriendController.java    API danh sach ban va them ban
-        MessageController.java   API gui / nhan message
-        FileController.java     API tai file
-        ApiExceptionHandler.java Chuan hoa loi tra ve
+        AuthController.java     API đăng nhập local và Google
+        FriendController.java   API danh sách bạn và thêm bạn
+        MessageController.java  API gửi / nhận message
+        FileController.java     API tải file
+        ApiExceptionHandler.java Chuẩn hóa lỗi trả về
     dto/
         AccessTokenResponse.java
         ErrorResponse.java
@@ -88,18 +88,18 @@ postman/
     demo-upload.txt
 ```
 
-## Du lieu luu tru
+## Dữ liệu lưu trữ
 
-Du an khong dung database quan he. Thay vao do, du lieu duoc luu bang cac file JSON cuc bo:
+Dự án không dùng database quan hệ. Thay vào đó, dữ liệu được lưu bằng các file JSON cục bộ:
 
-- `data/users.json`: thong tin user, ban be, token va thoi gian het han
-- `data/queues.json`: hang doi message cua tung user
-- `data/files.json`: metadata cua file dinh kem
-- `storage/`: noi luu file upload
+- `data/users.json`: thông tin user, bạn bè, token và thời gian hết hạn
+- `data/queues.json`: hàng đợi message của từng user
+- `data/files.json`: metadata của file đính kèm
+- `storage/`: nơi lưu file upload
 
-## Du lieu khoi tao
+## Dữ liệu khởi tạo
 
-Khi chay lan dau, server se tu tao 5 user mau:
+Khi chạy lần đầu, server sẽ tự tạo 5 user mẫu:
 
 - `alice`
 - `bob`
@@ -107,11 +107,11 @@ Khi chay lan dau, server se tu tao 5 user mau:
 - `dave`
 - `erin`
 
-Mat khau chung:
+Mật khẩu chung:
 
 - `Pass@123`
 
-Google email mau:
+Google email mẫu:
 
 - `alice@gmail.com`
 - `bob@gmail.com`
@@ -119,46 +119,46 @@ Google email mau:
 - `dave@gmail.com`
 - `erin@gmail.com`
 
-## Build va chay
+## Build và chạy
 
-### Yeu cau
+### Yêu cầu
 
 - Java 17
 - Maven 3.x
 
-### Chay ung dung
+### Chạy ứng dụng
 
 ```bash
 mvn spring-boot:run
 ```
 
-Hoac dong goi:
+Hoặc đóng gói:
 
 ```bash
 mvn clean package
 java -jar target/quick-chat-1.0.0.jar
 ```
 
-Mac dinh ung dung chay tai:
+Mặc định ứng dụng chạy tại:
 
 ```text
 http://localhost:8080
 ```
 
-## Xac thuc
+## Xác thực
 
-Tat ca API, tru `POST /auth/login` va `POST /auth/google`, deu can access token.
+Tất cả API, trừ `POST /auth/login` và `POST /auth/google`, đều cần access token.
 
-Token co the truyen bang mot trong hai header:
+Token có thể truyền bằng một trong hai header:
 
 - `Authorization: Bearer <token>`
 - `Access-Token: <token>`
 
-Token duoc kiem tra hop le va het han trong `UserStore`. Theo cau hinh mac dinh, token ton tai trong `24h`.
+Token được kiểm tra hợp lệ và hết hạn trong `UserStore`. Theo cấu hình mặc định, token tồn tại trong `24h`.
 
 ## API
 
-### 1. Dang nhap local
+### 1. Đăng nhập local
 
 `POST /auth/login`
 
@@ -179,7 +179,7 @@ Response:
 }
 ```
 
-### 2. Dang nhap Google
+### 2. Đăng nhập Google
 
 `POST /auth/google`
 
@@ -192,9 +192,9 @@ Body:
 }
 ```
 
-Neu email chua ton tai, server se tao user moi.
+Nếu email chưa tồn tại, server sẽ tạo user mới.
 
-### 3. Lay danh sach ban be
+### 3. Lấy danh sách bạn bè
 
 `GET /friends`
 
@@ -213,7 +213,7 @@ Response:
 ]
 ```
 
-### 4. Ket ban
+### 4. Kết bạn
 
 `POST /friends`
 
@@ -225,9 +225,9 @@ Body:
 }
 ```
 
-Ket ban la hai chieu: neu Alice them Bob, ca hai ben deu nhan nhau la ban.
+Kết bạn là hai chiều: nếu Alice thêm Bob, cả hai bên đều nhận nhau là bạn.
 
-### 5. Gui tin nhan text
+### 5. Gửi tin nhắn text
 
 `POST /messages`
 
@@ -246,7 +246,7 @@ Body:
 }
 ```
 
-### 6. Gui tin nhan file
+### 6. Gửi tin nhắn file
 
 `POST /messages`
 
@@ -258,13 +258,13 @@ multipart/form-data
 
 Fields:
 
-- `username`: nguoi nhan
-- `message`: mo ta text, co the de trong
-- `file`: file dinh kem
+- `username`: người nhận
+- `message`: mô tả text, có thể để trống
+- `file`: file đính kèm
 
-Neu message la file, server se luu vao `storage/` va tra ve link download o phan message cua nguoi nhan.
+Nếu message là file, server sẽ lưu vào `storage/` và trả về link download ở phần message của người nhận.
 
-### 7. Nhan message moi
+### 7. Nhận message mới
 
 `GET /messages`
 
@@ -274,11 +274,11 @@ Header:
 Authorization: Bearer <token>
 ```
 
-Cu phap long polling:
+Cú pháp long polling:
 
-- Neu user dang co message trong queue, server tra ve ngay
-- Neu chua co message, server cho toi da `10s`
-- Het `10s` ma khong co message moi thi tra ve danh sach rong `[]`
+- Nếu user đang có message trong queue, server trả về ngay
+- Nếu chưa có message, server chờ tối đa `10s`
+- Hết `10s` mà không có message mới thì trả về danh sách rỗng `[]`
 
 Response:
 
@@ -292,13 +292,13 @@ Response:
 ]
 ```
 
-Neu la file, `message` se la link dang:
+Nếu là file, `message` sẽ là link dạng:
 
 ```text
 /files/<storedFileName>
 ```
 
-### 8. Tai file
+### 8. Tải file
 
 `GET /files/{name}`
 
@@ -308,27 +308,27 @@ Header:
 Authorization: Bearer <token>
 ```
 
-Quyen truy cap:
+Quyền truy cập:
 
-- Chi nguoi gui hoac nguoi nhan cua file moi duoc tai
-- File khong ton tai se tra ve `404`
+- Chỉ người gửi hoặc người nhận của file mới được tải
+- File không tồn tại sẽ trả về `404`
 
-## Trang thai gui message
+## Trạng thái gửi message
 
-API gui message tra ve `status` de mo phong trang thai xu ly:
+API gửi message trả về `status` để mô phỏng trạng thái xử lý:
 
-- `1`: nguoi nhan dang online, message duoc day ngay
-- `2`: nguoi nhan offline, message duoc dua vao hang cho
-- `3`: nguoi gui khong nam trong danh sach ban cua nguoi nhan
+- `1`: người nhận đang online, message được đẩy ngay
+- `2`: người nhận offline, message được đưa vào hàng chờ
+- `3`: người gửi không nằm trong danh sách bạn của người nhận
 
 ## Postman
 
-Thu muc `postman/` da co san collection de test nhanh:
+Thư mục `postman/` đã có sẵn collection để test nhanh:
 
 - `postman/QuickChat.postman_collection.json`
 - `postman/demo-upload.txt`
 
-Collection gom san cac request:
+Collection gồm sẵn các request:
 
 - Login Alice
 - Login Bob
@@ -341,30 +341,29 @@ Collection gom san cac request:
 - Bob receives file
 - Download file
 
-Goi y luong test nhanh:
+Gợi ý luồng test nhanh:
 
-1. Login Alice va Bob.
-2. Xem danh sach ban be.
-3. Them Bob vao ban be neu can.
-4. Alice gui text sang Bob.
-5. Bob goi `GET /messages`.
-6. Alice gui file sang Bob.
-7. Bob nhan message file va dung link download.
+1. Login Alice và Bob.
+2. Xem danh sách bạn bè.
+3. Thêm Bob vào bạn bè nếu cần.
+4. Alice gửi text sang Bob.
+5. Bob gọi `GET /messages`.
+6. Alice gửi file sang Bob.
+7. Bob nhận message file và dùng link download.
 
-## Ghi chu
+## Ghi chú
 
-- `src/main/resources/application.properties` cau hinh port `8080`, thu muc `data/` va `storage/`, token TTL va long-poll timeout
-- `WebConfig` chua interceptor xac thuc cho tat ca API tru `POST /auth/login` va `POST /auth/google`
-- Du an uu tien su dung JSON file de luu trang thai server
-- Dung luong file upload duoc xu ly theo dau vao multipart va luu metadata trong `files.json`
+- `src/main/resources/application.properties` cấu hình port `8080`, thư mục `data/` và `storage/`, token TTL và long-poll timeout
+- `WebConfig` chứa interceptor xác thực cho tất cả API trừ `POST /auth/login` và `POST /auth/google`
+- Dự án ưu tiên sử dụng JSON file để lưu trạng thái server
+- Dung lượng file upload được xử lý theo đầu vào multipart và lưu metadata trong `files.json`
 
 ## Checklist nhanh
 
-1. Server chay duoc tren `localhost:8080`
-2. User login thanh cong va nhan access token
-3. Lay danh sach ban be bang token
-4. Gui text va gui file thanh cong
-5. Nhan message moi bang long polling
-6. Tai file chi khi co quyen
-7. Du lieu server luu trong cac file JSON va `storage/`
-
+1. Server chạy được trên `localhost:8080`
+2. User login thành công và nhận access token
+3. Lấy danh sách bạn bè bằng token
+4. Gửi text và gửi file thành công
+5. Nhận message mới bằng long polling
+6. Tải file chỉ khi có quyền
+7. Dữ liệu server lưu trong các file JSON và `storage/`
