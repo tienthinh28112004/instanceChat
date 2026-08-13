@@ -1,0 +1,41 @@
+[ {
+  "username" : "alice",
+  "passwordHash" : "$2a$12$l/hw3d4ssv97nMTVYwOG7.KptjSKa9.4pkqp.cYZZ8KafN4WuG77e",
+  "googleEmail" : "alice@gmail.com",
+  "friends" : [ "bob", "carol" ],
+  "token" : null,
+  "tokenCreatedAt" : null,
+  "tokenExpiresAt" : null
+}, {
+  "username" : "bob",
+  "passwordHash" : "$2a$12$l/hw3d4ssv97nMTVYwOG7.KptjSKa9.4pkqp.cYZZ8KafN4WuG77e",
+  "googleEmail" : "bob@gmail.com",
+  "friends" : [ "alice" ],
+  "token" : null,
+  "tokenCreatedAt" : null,
+  "tokenExpiresAt" : null
+}, {
+  "username" : "carol",
+  "passwordHash" : "$2a$12$l/hw3d4ssv97nMTVYwOG7.KptjSKa9.4pkqp.cYZZ8KafN4WuG77e",
+  "googleEmail" : "carol@gmail.com",
+  "friends" : [ "alice", "dave" ],
+  "token" : null,
+  "tokenCreatedAt" : null,
+  "tokenExpiresAt" : null
+}, {
+  "username" : "dave",
+  "passwordHash" : "$2a$12$l/hw3d4ssv97nMTVYwOG7.KptjSKa9.4pkqp.cYZZ8KafN4WuG77e",
+  "googleEmail" : "dave@gmail.com",
+  "friends" : [ "carol", "erin" ],
+  "token" : null,
+  "tokenCreatedAt" : null,
+  "tokenExpiresAt" : null
+}, {
+  "username" : "erin",
+  "passwordHash" : "$2a$12$l/hw3d4ssv97nMTVYwOG7.KptjSKa9.4pkqp.cYZZ8KafN4WuG77e",
+  "googleEmail" : "erin@gmail.com",
+  "friends" : [ "dave" ],
+  "token" : null,
+  "tokenCreatedAt" : null,
+  "tokenExpiresAt" : null
+} ]

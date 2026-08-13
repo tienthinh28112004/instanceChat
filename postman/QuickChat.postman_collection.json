@@ -1,0 +1,346 @@
+{
+  "info": {
+    "_postman_id": "d0d0f6d1-2d8c-4e98-8d8e-quickchatbai72",
+    "name": "QuickChat Bai 7.2",
+    "description": "Requests for login, friends, messaging, long polling, and file download.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "aliceToken",
+      "value": ""
+    },
+    {
+      "key": "bobToken",
+      "value": ""
+    },
+    {
+      "key": "downloadFileName",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login Alice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"alice\",\n  \"password\": \"Pass@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('aliceToken', json.accessToken);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Bob",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"bob\",\n  \"password\": \"Pass@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('bobToken', json.accessToken);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Google Login Demo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newperson@gmail.com\",\n  \"name\": \"newperson\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/google",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "google"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Friends",
+      "item": [
+        {
+          "name": "Get Alice Friends",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aliceToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/friends",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "friends"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Bob as Friend",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aliceToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"bob\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/friends",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "friends"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Alice Sends Text To Bob",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aliceToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"bob\",\n  \"message\": \"Hello Bob from Alice\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Bob Receives Text",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Alice Sends File To Bob",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{aliceToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "bob",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Here is a file",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "postman/demo-upload.txt"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Bob Receives File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const list = pm.response.json();",
+                  "if (Array.isArray(list) && list.length > 0) {",
+                  "  const first = list[0];",
+                  "  if (first.message && first.message.startsWith('/files/')) {",
+                  "    pm.collectionVariables.set('downloadFileName', first.message.replace('/files/', ''));",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Download File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{bobToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/files/{{downloadFileName}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "files",
+                "{{downloadFileName}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
