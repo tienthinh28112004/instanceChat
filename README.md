@@ -1,6 +1,6 @@
-# Bài 7.2 - Quick Chat
+# Bài 7.2 - Instance Chat
 
-Quick Chat là ứng dụng instant chat đơn giản xây dựng bằng Spring Boot, lưu dữ liệu bằng các file JSON và storage local. Dự án mô phỏng một hệ thống chat nội bộ với đăng nhập, kết bạn, gửi tin nhắn 1-1, gửi file và nhận tin mới bằng long polling.
+Instance Chat là ứng dụng instant chat đơn giản xây dựng bằng Spring Boot, lưu dữ liệu bằng các file JSON và storage local. Dự án mô phỏng một hệ thống chat nội bộ với đăng nhập, kết bạn, gửi tin nhắn 1-1, gửi file và nhận tin mới bằng long polling.
 
 ## Tổng quan
 
@@ -41,18 +41,18 @@ Hệ thống gồm các thành phần chính:
 ## Cấu trúc thư mục
 
 ```text
-src/main/java/com/bai72/quickchat/
-    QuickChatApplication.java   Điểm vào ứng dụng Spring Boot
+src/main/java/com/bai72/instancechat/
+    InstanceChatApplication.java  Điểm vào ứng dụng Spring Boot
     config/
-        AppDataInitializer.java Khởi tạo data folder, storage và 5 user mẫu
-        AppProperties.java      Cấu hình data-dir, storage-dir, token-ttl, long-poll-timeout
-        WebConfig.java           Đăng ký interceptor xác thực
+        AppDataInitializer.java  Khởi tạo data folder, storage và 5 user mẫu
+        AppProperties.java        Cấu hình data-dir, storage-dir, token-ttl, long-poll-timeout
+        WebConfig.java             Đăng ký interceptor xác thực
     controller/
-        AuthController.java     API đăng nhập local và Google
-        FriendController.java   API danh sách bạn và thêm bạn
-        MessageController.java  API gửi / nhận message
-        FileController.java     API tải file
-        ApiExceptionHandler.java Chuẩn hóa lỗi trả về
+        AuthController.java       API đăng nhập local và Google
+        FriendController.java     API danh sách bạn và thêm bạn
+        MessageController.java     API gửi / nhận message
+        FileController.java        API tải file
+        ApiExceptionHandler.java   Chuẩn hóa lỗi trả về
     dto/
         AccessTokenResponse.java
         ErrorResponse.java
@@ -84,7 +84,7 @@ data/
     files.json
 storage/
 postman/
-    QuickChat.postman_collection.json
+    InstanceChat.postman_collection.json
     demo-upload.txt
 ```
 
@@ -136,7 +136,7 @@ Hoặc đóng gói:
 
 ```bash
 mvn clean package
-java -jar target/quick-chat-1.0.0.jar
+java -jar target/instance-chat-1.0.0.jar
 ```
 
 Mặc định ứng dụng chạy tại:
@@ -325,7 +325,7 @@ API gửi message trả về `status` để mô phỏng trạng thái xử lý:
 
 Thư mục `postman/` đã có sẵn collection để test nhanh:
 
-- `postman/QuickChat.postman_collection.json`
+- `postman/InstanceChat.postman_collection.json`
 - `postman/demo-upload.txt`
 
 Collection gồm sẵn các request:
